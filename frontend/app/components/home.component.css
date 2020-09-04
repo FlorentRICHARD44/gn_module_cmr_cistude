@@ -1,0 +1,12 @@
+.home {
+    margin: 10px;
+}
+.menu {
+    max-width: 300px;
+}
+.menu-line {
+    padding: 10px 0px;
+}
+.menu-line button {
+    width: 100%;
+}
