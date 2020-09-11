@@ -1,0 +1,70 @@
+<h3>Aires d'étude</h3>
+<div class="row">
+    <div class="col-6" [style.min-height]="cardContentHeight + 'px'">
+        <pnx-map height="100%" class="map-card">
+        </pnx-map>
+    </div>
+    <div class="col-6>">
+        <div class="toolbar">
+            <button class="btn btn-success uppercase" [routerLink]="['studyarea']" >Ajouter une aire <mat-icon>add_circle_outline</mat-icon>
+            </button>
+        </div>
+<ngx-datatable #table
+    class="material striped margin-top-xs expandable"
+    [rows]="areasList"
+    [rowHeight]="40"
+    [draggable]="false"
+    [count]="areasList.length"
+    [limit]="25">
+
+    <ngx-datatable-row-detail 
+            #myDetailRow 
+            rowHeight="200" 
+          >
+            <ng-template ngx-datatable-row-detail-template
+              let-row="row" 
+              let-expanded="expanded" 
+            >
+              <div><strong>Nom: </strong>{{ row.area_name }}</div>
+              <div><strong>Commune: </strong>{{ row.city_name }}</div>
+              <div><strong>Code Postal: </strong>{{ row.postal_code }}</div>
+              <div><strong>Nom du Polygone: </strong>{{ row.polygon_name }}</div>
+              <div><strong>Description: </strong><div class="text-in-area">{{ row.description }}</div></div>
+            </ng-template>
+          </ngx-datatable-row-detail>
+    <ngx-datatable-column
+            [width]="10"
+            [resizeable]="false"
+            [sortable]="false"
+            [draggable]="false"
+            [canAutoResize]="false"
+          >
+            <ng-template ngx-datatable-cell-template
+              let-row="row" 
+              let-expanded="expanded"
+            >
+              <a href="javascript:void(0)"
+                matTooltip="Ouvrir/fermer le détail"
+                [class.datatable-icon-right]="!expanded"
+                [class.datatable-icon-down]="expanded"
+                (click)="toggleExpandRow(row)">
+              </a>
+            </ng-template>
+          </ngx-datatable-column>
+    <ngx-datatable-column width="15">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <a class="clickable btn btn-no-padding bt-ghost" [routerLink]="['studyarea', row.id_area]"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Nom" prop="area_name" width="300">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Commune" prop="city_name" width="300">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Code Postal" prop="postal_code" width="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Campagnes" prop="campaigns.length" width="100">
+    </ngx-datatable-column>
+
+</ngx-datatable>
+</div>
+</div>

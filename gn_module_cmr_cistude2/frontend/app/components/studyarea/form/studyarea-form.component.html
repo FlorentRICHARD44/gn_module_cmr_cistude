@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-6" [style.min-height]="cardContentHeight + 'px'">
+        <pnx-map height="100%" class="map-card">
+        </pnx-map>
+    </div>
+    <div class="col-6">
+        <h3>Aire d'étude</h3>
+        <div class="row">
+            <div class="col-11">
+                <label for="input_area_name">Nom du site</label>
+                <input type="text" id="input_area_name" class="form-control form-control-sm" [formControl]="areaForm.get('area_name')" (keyup)="recomputePolygonName($event)">
+            </div>
+            <div class="col-11">
+                <label for="input_city_name">Commune</label>
+                <input type="text" id="input_city_name" class="form-control form-control-sm" [formControl]="areaForm.get('city_name')" (keyup)="recomputePolygonName($event)">
+            </div>
+            <div class="col-11">
+                <label for="input_postal_code">Code Postal</label>
+                <input type="text" id="input_postal_code" class="form-control form-control-sm" [formControl]="areaForm.get('postal_code')" (keyup)="recomputePolygonName($event)">
+            </div>
+            <div class="col-11">
+                <label for="input_postal_code">Nom du Polygone</label>
+                <input type="text" readonly id="input_postal_code" class="form-control form-control-sm" [formControl]="areaForm.get('polygon_name')">
+            </div>
+            <div class="col-11">
+                <label for="input_description">Commentaire</label>
+                <textarea id="input_descriptoin" rows="4" class="form-control form-control-sm" [formControl]="areaForm.get('description')"></textarea>
+            </div>
+            <div class="col-2 offset-1">
+                <button class="btn btn-success" [disabled]="!areaForm.valid" (click)="onSave()">Enregistrer</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-danger" [routerLink]="['..']">Annuler</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
