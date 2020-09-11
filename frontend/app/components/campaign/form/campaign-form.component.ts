@@ -3,15 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { MapService } from "@geonature_common/map/map.service";
 import { UserDataService } from "@geonature/userModule/services/user-data.service";
 import { AuthService, User } from "@geonature/components/auth/auth.service";
-import { CmrService } from './../../services/cmr.service';
-import { CampaignService } from './campaign.service';
+import { CmrService } from './../../../services/cmr.service';
+import { CampaignService } from './../campaign.service';
 
 @Component({
-  selector: "campaign",
-  templateUrl: "./campaign.component.html",
+  selector: "campaign-form",
+  templateUrl: "./campaign-form.component.html",
   providers: [CampaignService, CmrService, AuthService]
 })
-export class CampaignComponent implements OnInit {
+export class CampaignFormComponent implements OnInit {
   public campaignForm: FormGroup;
   cardContentHeight: any;
   public currentUser: User;

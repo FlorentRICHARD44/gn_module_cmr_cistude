@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { CmrService } from './../../services/cmr.service';
+import { CmrService } from './../../../services/cmr.service';
 import { DatatableComponent } from "@swimlane/ngx-datatable/release";
 
 @Component({
