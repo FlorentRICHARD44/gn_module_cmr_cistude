@@ -13,6 +13,10 @@ export class CmrService {
     getAllCampaigns() {
         return this._api.get<any>(`${AppConfig.API_ENDPOINT}/${ModuleConfig.MODULE_URL}/campaigns`);
     }
+    
+    getAllCampaignsByArea(id_area) {
+        return this._api.get<any>(`${AppConfig.API_ENDPOINT}/${ModuleConfig.MODULE_URL}/studyarea/${id_area}/campaigns`);
+    }
 
     saveCampaign(form: any) {
         return this._api.put<any>(`${AppConfig.API_ENDPOINT}/${ModuleConfig.MODULE_URL}/campaign`, form);

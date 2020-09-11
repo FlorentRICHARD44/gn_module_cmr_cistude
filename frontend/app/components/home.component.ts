@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppConfig } from "@geonature_config/app.config";
+import { ModuleConfig } from "../module.config";
 
 @Component({
   selector: "home",
@@ -7,11 +9,14 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ["./home.component.css", "./../styles.css"]
 })
 export class HomeComponent implements OnInit {
+  public homeImgPath = "";
   showModalDataNotCmr: boolean = false;
   showModalDataCmr: boolean = false;
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.homeImgPath = AppConfig.URL_APPLICATION + '/external_assets/' + ModuleConfig.MODULE_CODE.toLowerCase() + '/cistude_d_europe.png';
+  }
   
   openModalRulesNotCmr() {
     console.log(this.showModalDataNotCmr);

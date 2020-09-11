@@ -19,9 +19,9 @@ const routes: Routes = [
   { path: "data-cmr", component: DataCMRComponent },
   { path: "data-cmr/studyarea", component: StudyAreaFormComponent },
   { path: "data-cmr/studyarea/:id", component: StudyAreaDetailsComponent },
+  { path: "data-cmr/studyarea/:id_area/campaign", component: CampaignComponent },
   { path: "data-not-cmr", component: DataNotCMRComponent },
-  { path: "request", component: RequestComponent },
-  { path: "campaign", component: CampaignComponent }
+  { path: "request", component: RequestComponent }
 ] ;
 
 @NgModule({

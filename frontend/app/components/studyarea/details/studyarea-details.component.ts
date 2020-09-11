@@ -16,6 +16,7 @@ export class StudyAreaDetailsComponent implements OnInit {
     cardContentHeight: any;
     private _studyAreaId;
     private _studyAreaData = {};
+    public campaignsList = [];
   @ViewChild("table")
   table: DatatableComponent;
   
@@ -36,6 +37,7 @@ export class StudyAreaDetailsComponent implements OnInit {
   
   ngAfterViewInit() {
     this._cmrService.getOneStudyArea(this._studyAreaId).subscribe(data => {this._studyAreaData = data;});
+    this._cmrService.getAllCampaignsByArea(this._studyAreaId).subscribe(data => {this.campaignsList = data});
     setTimeout(() => this.calcCardContentHeight(), 300);
   }
   @HostListener("window:resize", ["$event"])

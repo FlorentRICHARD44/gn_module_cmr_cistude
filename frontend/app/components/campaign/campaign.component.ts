@@ -70,7 +70,7 @@ export class CampaignComponent implements OnInit {
       id_campaign: result.id_campaign,
       description: result.description,
       operators: result.operators,
-      name: result.name
+      name: result.name,
     })});
   }
 }

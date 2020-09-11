@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { CmrService } from './../../services/cmr.service';
 import { DatatableComponent } from "@swimlane/ngx-datatable/release";
 
@@ -8,7 +8,9 @@ import { DatatableComponent } from "@swimlane/ngx-datatable/release";
   providers: [CmrService]
 })
 export class CampaignListComponent implements OnInit {
-  public campaignsList = [];
+  @Input()
+  public campaignsList;
+
   @ViewChild("table")
   table: DatatableComponent;
   constructor(
@@ -16,20 +18,6 @@ export class CampaignListComponent implements OnInit {
     ) {
     }
   ngOnInit() {}
-  ngAfterViewInit() {
-    this._cmrService.getAllCampaigns().subscribe(data => {
-      data.campaignsList = []
-        this.campaignsList = data;
-    });
-  }
-  displayObservateursTooltip(row): string[] {
-    let tooltip = [];
-    for (let i = 0; i < row.observers.length; i++) {
-      let obs = row.observers[i];
-      tooltip.push([obs.prenom_role, obs.nom_role].join(" "));
-    }
-    return tooltip.sort();
-  }
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);

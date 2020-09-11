@@ -12,20 +12,28 @@
         </pnx-map>
     </div>
     <div id="accordion" class="col-6" style="padding-left:30px">
-        <div class="row col-11 collapse-item clickable" (click)="showCampaigns = !showCampaigns">
+        <div class="row col-11 collapse-item-header clickable" [ngClass]="showCampaigns ? '' : 'collapsed'" (click)="showCampaigns = !showCampaigns">
             <div class="col-1">
                 <em class="fa fa-lg fa-chevron-down" aria-hidden="true" *ngIf="!showCampaigns"></em>
                 <em class="fa fa-lg fa-chevron-up" aria-hidden="true" *ngIf="showCampaigns"></em>
-            </div><h4>Campagnes</h4>
+            </div><h4>Campagnes <span class="badge badge-pill badge-primary">{{ campaignsList.length }}</span></h4>
         </div>
-        <div class="row col-11" *ngIf="showCampaigns"><p>Liste des Campagnes</p></div>
+        <div class="row col-11 collapse-item-body" ngCla *ngIf="showCampaigns" style="margin-bottom:20px">
+            <div class="toolbar col-12">
+                <button class="btn btn-success uppercase" [routerLink]="['campaign']" >Nouvelle campagne <mat-icon>add_circle_outline</mat-icon>
+                </button>
+            </div>
+            <div class="col-12">
+                <campaign-list [campaignsList]="campaignsList" width="100%"></campaign-list>
+            </div>
+        </div>
 
-        <div class="row col-11 collapse-item clickable" (click)="showIndividus = !showIndividus">
+        <div class="row col-11 collapse-item-header clickable"[ngClass]="showIndividus ? '' : 'collapsed'" (click)="showIndividus = !showIndividus">
             <div class="col-1">
                 <em class="fa fa-lg fa-chevron-down" aria-hidden="true" *ngIf="!showIndividus"></em>
                 <em class="fa fa-lg fa-chevron-up" aria-hidden="true" *ngIf="showIndividus"></em>
             </div><h4>Individus</h4>
         </div>
-        <div class="row col-11" *ngIf="showIndividus"><p>Liste des Individus</p></div>
+        <div class="row col-11 collapse-item-body" *ngIf="showIndividus"><p>Liste des Individus</p></div>
     </div>
 </div>

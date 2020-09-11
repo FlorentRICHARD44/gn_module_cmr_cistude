@@ -47,7 +47,7 @@ class TCampaign(DB.Model):
     name = DB.Column(DB.Unicode)
     year = DB.Column(DB.Integer)
     session = DB.Column(DB.Integer)
-#    study_area = DB.relationship(TStudyArea, back_populates="campaigns")
+    id_area = DB.Column(DB.Integer, DB.ForeignKey("t_study_area.id_area"))
     operators = DB.relationship(
         User,
         secondary=CorCampaignOperators.__table__,

@@ -51,7 +51,11 @@ class CampaignRepository:
     def get_all(self):
         q = DB.session.query(TCampaign,User).join(CorCampaignOperators, TCampaign.id_campaign == CorCampaignOperators.id_campaign, isouter=True).join(User, CorCampaignOperators.id_operator == User.id_role, isouter=True)
         return self._campaigns_to_dict(q.all())
-    
+
+    def get_all_by_area(self, id_area):
+        q = DB.session.query(TCampaign).filter(TCampaign.id_area == id_area)
+        return [c.as_dict() for c in q.all()]
+
     def get_one(self, id_campaign):
         q = DB.session.query(TCampaign,User).join(CorCampaignOperators, TCampaign.id_campaign == CorCampaignOperators.id_campaign, isouter=True).join(User, CorCampaignOperators.id_operator == User.id_role, isouter=True).filter(TCampaign.id_campaign == id_campaign)
         return self._campaigns_to_dict(q.all())[0]
