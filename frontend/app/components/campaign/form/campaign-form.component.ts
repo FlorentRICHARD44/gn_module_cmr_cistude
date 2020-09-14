@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 import { MapService } from "@geonature_common/map/map.service";
 import { UserDataService } from "@geonature/userModule/services/user-data.service";
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, User } from "@geonature/components/auth/auth.service";
 import { CmrService } from './../../../services/cmr.service';
 import { CampaignService } from './../campaign.service';
@@ -9,10 +10,13 @@ import { CampaignService } from './../campaign.service';
 @Component({
   selector: "campaign-form",
   templateUrl: "./campaign-form.component.html",
+  styleUrls: ['./../../../styles.css'],
   providers: [CampaignService, CmrService, AuthService]
 })
 export class CampaignFormComponent implements OnInit {
   public campaignForm: FormGroup;
+  private _studyAreaId;
+  public studyArea = {id:null,area_name:""};
   cardContentHeight: any;
   public currentUser: User;
 
@@ -20,16 +24,37 @@ export class CampaignFormComponent implements OnInit {
     public campaignService: CampaignService,
     private _mapService: MapService,
     private _cmrService: CmrService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
     ) {
       this.currentUser = this._auth.getCurrentUser();
+      this.route.params.subscribe(params => {this._studyAreaId = params.id_area});
     }
   ngOnInit() {
     this.campaignForm = this.campaignService.form;
-    console.log(this.currentUser);
-    this.campaignForm.patchValue({
-      operators: [this.currentUser],
+    var initValues = this._computeInitData(1);
+    var area_name = "";
+    this._cmrService.getOneStudyArea(this._studyAreaId).subscribe(data => {
+      this.studyArea = data;
+      this._cmrService.getAllCampaignsByArea(this._studyAreaId).subscribe(
+        data => {
+          this.campaignForm.patchValue(this._computeInitData(data.length + 1));
+        },
+        error => {
+          // let session at 1 by default (result error 404 if no campaign alreay created)
+          this.campaignForm.patchValue(this._computeInitData(1));
+        });
     });
+  }
+  _computeInitData( session) {
+    var year = (new Date()).getFullYear();
+    return {
+      session: session,
+      year: year,
+      id_area: this.studyArea.id_area,
+      name: this.studyArea.area_name.replace(" ", "_") + "_Session" + session + "_" + year
+    };
   }
   ngAfterViewInit() {
     setTimeout(() => this.calcCardContentHeight(), 500);
@@ -66,11 +91,8 @@ export class CampaignFormComponent implements OnInit {
   }
 
   onSave() {
-    this._cmrService.saveCampaign(this.campaignForm.value).subscribe(result => {this.campaignForm.setValue({
-      id_campaign: result.id_campaign,
-      description: result.description,
-      operators: result.operators,
-      name: result.name,
-    })});
+    this._cmrService.saveCampaign(this.campaignForm.value).subscribe(result => {
+      this.router.navigate(['..'],{relativeTo: this.route});
+    });
   }
 }

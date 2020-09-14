@@ -14,8 +14,10 @@ export class CampaignService {
     initForm(): void {
         this.form = this.fb.group({
             id_campaign: null,
+            id_area: [null, Validators.required],
             description: [null, Validators.required],
-            operators: null,
+            session: null,
+            year: null,
             name: null
         });
     }

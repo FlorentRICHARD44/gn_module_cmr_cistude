@@ -47,11 +47,5 @@ class TCampaign(DB.Model):
     name = DB.Column(DB.Unicode)
     year = DB.Column(DB.Integer)
     session = DB.Column(DB.Integer)
-    id_area = DB.Column(DB.Integer, DB.ForeignKey("t_study_area.id_area"))
-    operators = DB.relationship(
-        User,
-        secondary=CorCampaignOperators.__table__,
-        primaryjoin=(CorCampaignOperators.id_campaign == id_campaign),
-        secondaryjoin=(CorCampaignOperators.id_operator == User.id_role),
-        foreign_keys=[CorCampaignOperators.id_campaign, CorCampaignOperators.id_operator])
+    id_area = DB.Column(DB.Integer, DB.ForeignKey(TStudyArea.id_area))
     #readonly_fields = ["id_campaign", "name"]

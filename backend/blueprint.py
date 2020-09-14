@@ -29,18 +29,18 @@ def get_one_study_area(id_area):
     repo = StudyAreaRepository(TStudyArea)
     return repo.get_one(id_area)
 
-@blueprint.route('/studyarea/<int:id_area>/campaigns', methods=['GET'])
-@json_resp
-def get_all_campaigns_by_area(id_area):
-    campaign_repository = CampaignRepository(TCampaign)
-    return campaign_repository.get_all_by_area(id_area)
-
 @blueprint.route('/studyarea', methods=['PUT'])
 @json_resp
 def save_study_area():
     repo = StudyAreaRepository(TStudyArea)
     study_area = repo.save(request.json)
     return study_area
+
+@blueprint.route('/studyarea/<int:id_area>/campaigns', methods=['GET'])
+@json_resp
+def get_all_campaigns_by_area(id_area):
+    campaign_repository = CampaignRepository(TCampaign)
+    return campaign_repository.get_all_by_area(id_area)
 
 @blueprint.route('/campaigns', methods=['GET'])
 @json_resp
@@ -52,7 +52,6 @@ def get_all_campaigns():
         return {"error": str(e)}
 
 @blueprint.route('/campaign', methods=['PUT'])
-@json_resp
 def save_campaign():
     try:
         campaign_repository = CampaignRepository(TCampaign)

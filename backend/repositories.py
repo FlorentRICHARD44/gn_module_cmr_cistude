@@ -62,32 +62,12 @@ class CampaignRepository:
 
     def save(self, campaign):
         if campaign is not None:
-            new_op = []
-            for op in campaign['operators']:
-                if op is not None:
-                    op_found = DB.session.query(User).filter(User.id_role == op['id_role']).first()
-                    if op_found:
-                        new_op.append(op_found)
-            
-            try:
-                campaign['operators'] = []
-                campaign = TCampaign(**campaign)
-                if not campaign.id_campaign:
-                    DB.session.add(campaign)
-                else:
-                    DB.session.merge(campaign)
-                    old_corops = DB.session.query(CorCampaignOperators).filter(CorCampaignOperators.id_campaign == campaign.id_campaign).delete()
-                DB.session.commit()
-            except Exception as e:
-                raise Exception('error in part 2: ' + str(e))
-            # update operators list
-            try:
-                for op in new_op:
-                    campaign.operators.append(op)
+            campaign = TCampaign(**campaign)
+            if not campaign.id_campaign:
+                DB.session.add(campaign)
+            else:
                 DB.session.merge(campaign)
-                DB.session.commit()
-                return self.get_one(campaign.id_campaign)
-            except Exception as e:
-                raise Exception('error in part 3: '+ str(e))
+            DB.session.commit()
+            return campaign.as_dict()
         else:
             raise GeonatureError("Missing data to create campaign")
