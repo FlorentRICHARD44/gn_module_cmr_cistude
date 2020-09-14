@@ -19,9 +19,7 @@ export class HomeComponent implements OnInit {
   }
   
   openModalRulesNotCmr() {
-    console.log(this.showModalDataNotCmr);
     this.showModalDataNotCmr = true;
-    console.log(this.showModalDataNotCmr);
   }
   onModalClosedNotCmr(e) {
     this.showModalDataNotCmr = false;
