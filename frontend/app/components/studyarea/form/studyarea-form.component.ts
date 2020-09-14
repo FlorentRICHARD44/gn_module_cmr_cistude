@@ -65,16 +65,11 @@ export class StudyAreaFormComponent implements OnInit {
     })*/ );
   }
   recomputePolygonName(event) {
-      console.log("recompute");
       var formValue = this.areaForm.value;
       var polygonName = "";
-      console.log(formValue);
-      console.log(formValue.area_name);
-      console.log(formValue.area_name.value);
       if (formValue.area_name && formValue.city_name && formValue.postal_code) {
           polygonName = formValue.area_name.replace(" ", "_") + "_" + formValue.city_name.replace(" ", "_") + "_" + formValue.postal_code; 
       }
-      console.log(polygonName);
       this.areaForm.patchValue({polygon_name: polygonName});
   }
 }
