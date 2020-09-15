@@ -47,7 +47,7 @@
           </ngx-datatable-column>
     <ngx-datatable-column width="15">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <a class="clickable btn btn-no-padding bt-ghost"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+            <a class="clickable btn btn-no-padding bt-ghost" [routerLink]="['campaign', row.id_campaign]"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
         </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column width="400" name="Nom" prop="name">

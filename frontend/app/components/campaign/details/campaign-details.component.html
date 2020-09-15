@@ -1,0 +1,43 @@
+<div class="home">
+    <div class="header clearfix">
+        <h3 class="float-left">Campagne: {{ campaign.name }}</h3>
+        <a class="float-right" [routerLink]="['../..']">Retour à l'aire d'étude</a>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="">
+                <div><strong>Aire d'étude: </strong>{{ studyArea.area_name }}</div>
+                <div><strong>Session: </strong>{{ campaign.session }}</div>
+                <div><strong>Année: </strong>{{ campaign.year }}</div>
+                <div><strong>Description: </strong></div>
+                <div class="text-in-area">{{ campaign.description }}</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="d-flex"></div><!--ensure to align map width correctly -->
+            <pnx-map height="300px" width="100%" class="map-card">
+            </pnx-map>
+        </div>
+    </div>
+    <div class="toolbar">
+        <button class="btn btn-success">Nouveau point de capture</button>
+        <button class="btn btn-success">Nouvelle visite</button>
+    </div>
+    <div class="row">
+        <ngx-datatable #table
+            class="material striped margin-top-xs"
+            [rows]="pointVisitList"
+            [rowHeight]="40"
+            [draggable]="false"
+            [count]="pointVisitList.length">
+
+            <ngx-datatable-column width="150" name="Point de Capture" prop="pc_name">
+            </ngx-datatable-column>
+            <ngx-datatable-column width="150" name="Type" prop="pc_type">
+            </ngx-datatable-column>
+            <!-- TODO use for loop on visit -->
+            <ngx-datatable-column width="400" name="Visite 1" prop="visit1">
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

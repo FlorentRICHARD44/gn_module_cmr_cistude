@@ -40,7 +40,7 @@ export class StudyAreaListComponent implements OnInit {
     return height >= 350 ? height : 350;
   }
   calcCardContentHeight() {
-    let minusHeight = 50;
+    let minusHeight = 100;
 
     this.cardContentHeight = this.calcCardContentHeightParent(minusHeight + 20)
 

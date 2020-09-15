@@ -1,5 +1,5 @@
 import sys
-from flask import Blueprint, request
+from flask import Blueprint, request, abort
 from geonature.utils.utilssqlalchemy import json_resp
 from .models import TStudyArea, TCampaign
 from .repositories import StudyAreaRepository, CampaignRepository
@@ -50,6 +50,16 @@ def get_all_campaigns():
         return campaign_repository.get_all()
     except Exception as e:
         return {"error": str(e)}
+
+@blueprint.route('/campaign/<int:id_campaign>', methods=['GET'])
+@json_resp
+def get_one_campaign(id_campaign):
+    campaign_repository = CampaignRepository(TCampaign)
+    campaign = campaign_repository.get_one(id_campaign)
+    if campaign is None:
+        abort(404)
+    else:
+        return campaign
 
 @blueprint.route('/campaign', methods=['PUT'])
 def save_campaign():

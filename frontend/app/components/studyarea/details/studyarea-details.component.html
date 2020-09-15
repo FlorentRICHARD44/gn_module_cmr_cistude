@@ -1,5 +1,8 @@
 <div class="home">
-    <h3>Aire d'étude: {{ studyArea.area_name }}</h3>
+    <div class="header clearfix">
+        <h3 class="float-left">Aire d'étude: {{ studyArea.area_name }}</h3>
+        <a class="float-right" [routerLink]="['../..']">Retour à la liste des aires d'études</a>
+    </div>
     <div class="row">
         <div class="col-6">
             <div class="">

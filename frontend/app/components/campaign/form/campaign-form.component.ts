@@ -16,7 +16,7 @@ import { CampaignService } from './../campaign.service';
 export class CampaignFormComponent implements OnInit {
   public campaignForm: FormGroup;
   private _studyAreaId;
-  public studyArea = {id:null,area_name:""};
+  public studyArea = {id_area:null,area_name:""};
   cardContentHeight: any;
   public currentUser: User;
 
