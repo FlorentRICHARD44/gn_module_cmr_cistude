@@ -5,15 +5,18 @@ import { UserDataService } from "@geonature/userModule/services/user-data.servic
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, User } from "@geonature/components/auth/auth.service";
 import { CmrService } from './../../../services/cmr.service';
+import { CmrMapService } from './../../../services/crm-map.service';
 import { CampaignService } from './../campaign.service';
 
 @Component({
   selector: "campaign-form",
   templateUrl: "./campaign-form.component.html",
   styleUrls: ['./../../../styles.css'],
-  providers: [CampaignService, CmrService, AuthService]
+  providers: [CampaignService, CmrService, AuthService, CmrMapService]
 })
 export class CampaignFormComponent implements OnInit {
+  public leafletDrawOptions: any;
+  public geometry = null;
   public campaignForm: FormGroup;
   private _studyAreaId;
   public studyArea = {id_area:null,area_name:""};
@@ -24,6 +27,7 @@ export class CampaignFormComponent implements OnInit {
     public campaignService: CampaignService,
     private _mapService: MapService,
     private _cmrService: CmrService,
+    private _cmrMapService: CmrMapService,
     private _auth: AuthService,
     private router: Router,
     private route: ActivatedRoute
@@ -32,11 +36,13 @@ export class CampaignFormComponent implements OnInit {
       this.route.params.subscribe(params => {this._studyAreaId = params.id_area});
     }
   ngOnInit() {
+    this.leafletDrawOptions = this._cmrMapService.getLeafletDrawOptionReadOnly();
     this.campaignForm = this.campaignService.form;
     var initValues = this._computeInitData(1);
     var area_name = "";
     this._cmrService.getOneStudyArea(this._studyAreaId).subscribe(data => {
       this.studyArea = data;
+      this.geometry = data.geom;
       this._cmrService.getAllCampaignsByArea(this._studyAreaId).subscribe(
         data => {
           this.campaignForm.patchValue(this._computeInitData(data.length + 1));

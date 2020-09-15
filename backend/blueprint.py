@@ -1,6 +1,8 @@
 import sys
 from flask import Blueprint, request, abort
 from geonature.utils.utilssqlalchemy import json_resp
+from geoalchemy2.shape import from_shape
+from shapely.geometry import asShape
 from .models import TStudyArea, TCampaign
 from .repositories import StudyAreaRepository, CampaignRepository
 
@@ -33,7 +35,9 @@ def get_one_study_area(id_area):
 @json_resp
 def save_study_area():
     repo = StudyAreaRepository(TStudyArea)
-    study_area = repo.save(request.json)
+    data = request.json
+    data['geom'] = from_shape(asShape(data['geom']), srid=4326)
+    study_area = repo.save(data)
     return study_area
 
 @blueprint.route('/studyarea/<int:id_area>/campaigns', methods=['GET'])

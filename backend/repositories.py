@@ -1,5 +1,7 @@
+import json
 from geonature.utils.env import DB
 from .models import TStudyArea, TCampaign, CorCampaignOperators
+from sqlalchemy.sql.functions import func
 from pypnusershub.db.models import User
 
 class StudyAreaRepository:
@@ -14,8 +16,14 @@ class StudyAreaRepository:
         return [sa.as_dict() for sa in q.all()]
 
     def get_one(self, id_area):
-        q = DB.session.query(TStudyArea).filter(TStudyArea.id_area == id_area)
-        return q.one().as_dict()
+        q = DB.session.query(TStudyArea, func.ST_AsGEOJSON(TStudyArea.geom)).filter(TStudyArea.id_area == id_area)
+        result = q.one()
+        (data, geom) = result
+        print(data)
+        print(geom)
+        data = data.as_dict()
+        data['geom'] = json.loads(geom)
+        return data
 
     def save(self, study_area):
         if study_area is None:

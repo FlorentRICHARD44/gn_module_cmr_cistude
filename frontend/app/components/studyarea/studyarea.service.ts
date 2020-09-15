@@ -18,7 +18,8 @@ export class StudyAreaService {
             city_name: [null, Validators.required],
             postal_code: [null, [Validators.required, Validators.pattern('^[0-9]{5}$')]],
             polygon_name: null,
-            description: null
+            description: null,
+            geom: [null, Validators.required]
         });
     }
 }

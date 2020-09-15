@@ -13,6 +13,11 @@
                 <div><strong>Description: </strong><div class="text-in-area">{{ studyArea.description }}</div></div>
             </div>
             <pnx-map height="500px" class="map-card">
+              <pnx-leaflet-draw 
+                [bEnable]="false"
+                [geojson]="geometry" 
+                [options]="leafletDrawOptions" >
+            </pnx-leaflet-draw>
             </pnx-map>
         </div>
         <div id="accordion" class="col-6" style="padding-left:30px">

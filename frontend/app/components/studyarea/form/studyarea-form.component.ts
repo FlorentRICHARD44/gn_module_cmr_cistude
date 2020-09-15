@@ -2,15 +2,17 @@ import { Component, HostListener, OnInit } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 import { MapService } from "@geonature_common/map/map.service";
 import { CmrService } from './../../../services/cmr.service';
+import { CmrMapService } from './../../../services/crm-map.service';
 import { StudyAreaService } from './../studyarea.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "studyarea-form",
   templateUrl: "./studyarea-form.component.html",
-  providers: [StudyAreaService, CmrService]
+  providers: [StudyAreaService, CmrService, CmrMapService]
 })
 export class StudyAreaFormComponent implements OnInit {
+  public leafletDrawOptions: any;
   public areaForm: FormGroup;
   cardContentHeight: any;
 
@@ -18,10 +20,13 @@ export class StudyAreaFormComponent implements OnInit {
     public studyareaService: StudyAreaService,
     private _mapService: MapService,
     private _cmrService: CmrService,
+    private _cmrMapService: CmrMapService,
     private router: Router,
     private route: ActivatedRoute
     ) {}
+
   ngOnInit() {
+    this.leafletDrawOptions = this._cmrMapService.getLeafletDrawOptionDrawPolygon();
     this.areaForm = this.studyareaService.form;
   }
   ngAfterViewInit() {
@@ -55,15 +60,9 @@ export class StudyAreaFormComponent implements OnInit {
   onSave() {
     this._cmrService.saveStudyArea(this.areaForm.value).subscribe(result => {
         this.router.navigate(['..'],{relativeTo: this.route});
-    }
-        /*{this.areaForm.setValue({
-      id_area: result.id_area,
-      area_name: result.area_name,
-      city_name: result.city_name,
-      postal_code: result.postal_code,
-      polygon_name: result.polygon_name
-    })*/ );
+    });
   }
+
   recomputePolygonName(event) {
       var formValue = this.areaForm.value;
       var polygonName = "";
@@ -71,5 +70,12 @@ export class StudyAreaFormComponent implements OnInit {
           polygonName = formValue.area_name.replace(" ", "_") + "_" + formValue.city_name.replace(" ", "_") + "_" + formValue.postal_code; 
       }
       this.areaForm.patchValue({polygon_name: polygonName});
+  }
+
+  setNewGeometry(geojson) {
+    console.log(geojson)
+    this.areaForm.patchValue({
+      geom: geojson ? geojson.geometry : undefined
+    });
   }
 }

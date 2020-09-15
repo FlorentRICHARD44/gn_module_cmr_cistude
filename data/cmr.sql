@@ -8,7 +8,7 @@ CREATE TABLE gn_cmr_cistude.t_study_area (
     city_name character varying(50), -- example: "Succieu"
     postal_code character varying(10), -- example "38300"
     polygon_name character varying(150), -- composed of area_name + city_name + postal_code. example: "Etang_de_Ravoux_Succieu_38300"
-    geom geometry(MultiPolygon,2154),
+    geom geometry(MultiPolygon,4326),
     description text,
     CONSTRAINT pk_t_study_area PRIMARY KEY (id_area)
 );
