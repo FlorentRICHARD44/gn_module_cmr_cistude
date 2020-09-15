@@ -1,16 +1,18 @@
 import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { CmrService } from './../../../services/cmr.service';
+import { CmrMapService } from './../../../services/crm-map.service';
 import { DatatableComponent } from "@swimlane/ngx-datatable/release";
-import { MapService } from "@geonature_common/map/map.service";
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "campaign-details",
   templateUrl: "./campaign-details.component.html",
   styleUrls: ['./../../../styles.css'],
-  providers: [CmrService]
+  providers: [CmrService, CmrMapService]
 })
 export class CampaignDetailsComponent implements OnInit {
+  public leafletDrawOptions: any;
+  public geometry = null;
   private _studyAreaId;
   private _campaignId;
   private _campaignData = {};
@@ -28,12 +30,13 @@ export class CampaignDetailsComponent implements OnInit {
   }
   constructor(
     private _cmrService: CmrService,
-    private _mapService: MapService,
+    private _cmrMapService: CmrMapService,
     private route: ActivatedRoute
     ) {
     }
 
   ngOnInit() {
+    this.leafletDrawOptions = this._cmrMapService.getLeafletDrawOptionReadOnly();
     this.route.params.subscribe(params => {
       this._studyAreaId = params.id_area;
       this._campaignId = params.id_campaign;
@@ -41,7 +44,10 @@ export class CampaignDetailsComponent implements OnInit {
   }
   
   ngAfterViewInit() {
-    this._cmrService.getOneStudyArea(this._studyAreaId).subscribe(data => {this._studyAreaData = data;});
+    this._cmrService.getOneStudyArea(this._studyAreaId).subscribe(data => {
+      this._studyAreaData = data;
+      this.geometry = data.geom;
+    });
     this._cmrService.getOneCampaign(this._campaignId).subscribe(data => {this._campaignData = data});
   }
 }

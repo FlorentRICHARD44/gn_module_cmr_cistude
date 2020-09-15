@@ -12,17 +12,23 @@ class StudyAreaRepository:
         self.model = model
 
     def get_all(self):
-        q = DB.session.query(TStudyArea)
-        return [sa.as_dict() for sa in q.all()]
+        q = DB.session.query(TStudyArea, func.ST_AsGEOJSON(TStudyArea.geom))
+        result = []
+        for sa in q.all():
+            (data, geom) = sa
+            data = data.as_dict()
+            if geom:
+                data['geom'] = json.loads(geom)
+            result.append(data)
+        return result
 
     def get_one(self, id_area):
         q = DB.session.query(TStudyArea, func.ST_AsGEOJSON(TStudyArea.geom)).filter(TStudyArea.id_area == id_area)
         result = q.one()
         (data, geom) = result
-        print(data)
-        print(geom)
         data = data.as_dict()
-        data['geom'] = json.loads(geom)
+        if geom:
+            data['geom'] = json.loads(geom)
         return data
 
     def save(self, study_area):

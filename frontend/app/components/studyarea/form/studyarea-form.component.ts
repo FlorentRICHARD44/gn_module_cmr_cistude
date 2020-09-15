@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class StudyAreaFormComponent implements OnInit {
   public leafletDrawOptions: any;
+  public geometry = null;
   public areaForm: FormGroup;
   cardContentHeight: any;
 

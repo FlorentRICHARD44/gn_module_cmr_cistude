@@ -1,25 +1,31 @@
 import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { CmrService } from './../../../services/cmr.service';
+import { CmrMapService } from './../../../services/crm-map.service';
 import { DatatableComponent } from "@swimlane/ngx-datatable/release";
 import { MapService } from "@geonature_common/map/map.service";
 
 @Component({
   selector: "studyarea-list",
   templateUrl: "./studyarea-list.component.html",
-  styleUrls: ['./../../../styles.css'],
-  providers: [CmrService]
+  styleUrls: ['./../../../styles.css', './studyarea-list.component.scss'],
+  providers: [CmrService, CmrMapService]
 })
 export class StudyAreaListComponent implements OnInit {
+  public leafletDrawOptions: any;
+  public geometry = null;
     cardContentHeight: any;
   public areasList = [];
   @ViewChild("table")
   table: DatatableComponent;
   constructor(
     private _cmrService: CmrService,
+    private _cmrMapService: CmrMapService,
     private _mapService: MapService
     ) {
     }
-  ngOnInit() {}
+  ngOnInit() {
+    this.leafletDrawOptions = this._cmrMapService.getLeafletDrawOptionReadOnly();
+  }
   
   ngAfterViewInit() {
     setTimeout(() => this.calcCardContentHeight(), 300);
@@ -54,5 +60,12 @@ export class StudyAreaListComponent implements OnInit {
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onRowSelect(selection) {
+    this.geometry = null;
+    if (selection && selection.selected && selection.selected[0] && selection.selected[0].geom) {
+      this.geometry = selection.selected[0].geom;
+    }
   }
 }

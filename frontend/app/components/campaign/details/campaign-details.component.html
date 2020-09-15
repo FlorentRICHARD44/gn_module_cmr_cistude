@@ -16,6 +16,11 @@
         <div class="col-4">
             <div class="d-flex"></div><!--ensure to align map width correctly -->
             <pnx-map height="300px" width="100%" class="map-card">
+                <pnx-leaflet-draw 
+                    [bEnable]="false"
+                    [geojson]="geometry" 
+                    [options]="leafletDrawOptions" >
+                </pnx-leaflet-draw>
             </pnx-map>
         </div>
     </div>

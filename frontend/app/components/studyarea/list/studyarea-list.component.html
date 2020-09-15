@@ -2,6 +2,11 @@
 <div class="row">
     <div class="col-6" [style.min-height]="cardContentHeight + 'px'">
         <pnx-map height="100%" class="map-card">
+            <pnx-leaflet-draw 
+                [bEnable]="false"
+                [geojson]="geometry" 
+                [options]="leafletDrawOptions" >
+            </pnx-leaflet-draw>
         </pnx-map>
     </div>
     <div class="col-6>">
@@ -15,7 +20,9 @@
     [rowHeight]="40"
     [draggable]="false"
     [count]="areasList.length"
-    [limit]="25">
+    [limit]="25"
+    [selectionType]="'single'"
+    (select)="onRowSelect($event)">
 
     <ngx-datatable-row-detail 
             #myDetailRow 
